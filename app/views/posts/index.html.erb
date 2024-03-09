@@ -4,11 +4,12 @@
 
 <div id="posts">
   <% @posts.each do |post| %>
-    <%= render post %>
+    <%= render 'post', post: post %> <!-- 'post' 部分テンプレートにローカル変数 `post` を渡す -->
     <p>
       <%= link_to "Show this post", post %>
     </p>
   <% end %>
 </div>
+
 
 <%= link_to "New post", new_post_path %>

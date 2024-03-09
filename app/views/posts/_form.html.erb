@@ -23,7 +23,7 @@
 
   <div>
     <%= form.label :address, style: "display: block" %>
-    <%= form.text_field :address %>
+    <%= form.text_field :address, autofocus: true,placeholder: "住所を入力してください" %>
   </div>
 
   <div>
@@ -37,6 +37,6 @@
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit (@post.new_record? ? "投稿する" : "更新する")%>
   </div>
 <% end %>

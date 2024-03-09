@@ -1,10 +1,40 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @post %>
+<div id="<%= dom_id(@post, 'map') %>" style="height: 300px;"></div>
 
 <div>
   <%= link_to "Edit this post", edit_post_path(@post) %> |
   <%= link_to "Back to posts", posts_path %>
-
   <%= button_to "Destroy this post", @post, method: :delete %>
 </div>
+
+<script type="text/javascript">
+  function initMap() {
+    initializeMap(<%= @post.latitude %>, <%= @post.longitude %>, '<%= dom_id(@post, 'map') %>', '<%= j @post.address %>');
+  }
+
+  function initializeMap(lat, lng, mapId, address) {
+    var location = {lat: lat, lng: lng};
+    var map = new google.maps.Map(document.getElementById(mapId), {
+      zoom: 15,
+      center: location
+    });
+
+    var marker = new google.maps.Marker({
+      position: location,
+      map: map,
+      title: address
+    });
+
+    var infowindow = new google.maps.InfoWindow({
+      content: '住所：' + address
+    });
+
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap"></script>
